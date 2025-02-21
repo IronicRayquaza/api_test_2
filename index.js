@@ -1,9 +1,8 @@
 const express = require("express");
 
 const app = express();
-app.use(express.json()); // Middleware to parse JSON
+app.use(express.json()); 
 
-// Function to extract numbers from strings
 const extractNumbers = (data) => {
     return data.map(obj => {
         return {
@@ -12,11 +11,14 @@ const extractNumbers = (data) => {
         };
     });
 };
+app.get("/", (req, res) => {
+    res.send("API is working!");
+});
 
 // API Endpoint
 app.post("/extract-numbers", (req, res) => {
     try {
-        const { data } = req.body; // Expecting { "data": [ { "value": "abc123xyz45" }, ... ] }
+        const { data } = req.body;
         if (!Array.isArray(data)) {
             return res.status(400).json({ error: "Invalid input format" });
         }
@@ -28,6 +30,5 @@ app.post("/extract-numbers", (req, res) => {
     }
 });
 
-// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
